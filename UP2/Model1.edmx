@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище OgilkoBDModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="255" />
+          <Property Name="last_name" Type="varchar" MaxLength="255" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="role_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Material_type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="200" />
+          <Property Name="procent_of_brak" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Partner_product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="partner_id" Type="int" />
+          <Property Name="quantity_of_products" Type="int" />
+          <Property Name="sale_date" Type="date" />
+        </EntityType>
+        <EntityType Name="Partners">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="10" />
+          <Property Name="company_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="director_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="legal_address" Type="nvarchar" MaxLength="255" />
+          <Property Name="inn" Type="nvarchar" MaxLength="10" />
+          <Property Name="rating" Type="float" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_id" Type="int" />
+          <Property Name="name" Type="nvarchar" MaxLength="190" />
+          <Property Name="articul" Type="int" />
+          <Property Name="minPrice" Type="float" />
+        </EntityType>
+        <EntityType Name="Product_type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="100" />
+          <Property Name="koef_of_type" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Employee_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partner_product_Partners">
+          <End Role="Partners" Type="Self.Partners" Multiplicity="0..1" />
+          <End Role="Partner_product" Type="Self.Partner_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partners">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partner_product">
+              <PropertyRef Name="partner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partner_product_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Partner_product" Type="Self.Partner_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partner_product">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Product_type">
+          <End Role="Product_type" Type="Self.Product_type" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище OgilkoBDModelContainer">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material_type" EntityType="Self.Material_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partner_product" EntityType="Self.Partner_product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partners" EntityType="Self.Partners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_type" EntityType="Self.Product_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Employee_Roles" Association="Self.FK_Employee_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partner_product_Partners" Association="Self.FK_Partner_product_Partners">
+            <End Role="Partners" EntitySet="Partners" />
+            <End Role="Partner_product" EntitySet="Partner_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partner_product_Product" Association="Self.FK_Partner_product_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Partner_product" EntitySet="Partner_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Product_type" Association="Self.FK_Product_Product_type">
+            <End Role="Product_type" EntitySet="Product_type" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OgilkoBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="role_id" Type="Int32" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Employee_Roles" FromRole="Employee" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Material_type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="procent_of_brak" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Partner_product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="partner_id" Type="Int32" />
+          <Property Name="quantity_of_products" Type="Int32" />
+          <Property Name="sale_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Partners" Relationship="Self.FK_Partner_product_Partners" FromRole="Partner_product" ToRole="Partners" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Partner_product_Product" FromRole="Partner_product" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Partners">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="company_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="director_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="legal_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="inn" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="rating" Type="Double" />
+          <NavigationProperty Name="Partner_product" Relationship="Self.FK_Partner_product_Partners" FromRole="Partners" ToRole="Partner_product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_id" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="190" FixedLength="false" Unicode="true" />
+          <Property Name="articul" Type="Int32" />
+          <Property Name="minPrice" Type="Double" />
+          <NavigationProperty Name="Partner_product" Relationship="Self.FK_Partner_product_Product" FromRole="Product" ToRole="Partner_product" />
+          <NavigationProperty Name="Product_type" Relationship="Self.FK_Product_Product_type" FromRole="Product" ToRole="Product_type" />
+        </EntityType>
+        <EntityType Name="Product_type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="koef_of_type" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Product_type" FromRole="Product_type" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Roles" FromRole="Roles" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Employee_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partner_product_Partners">
+          <End Role="Partners" Type="Self.Partners" Multiplicity="0..1" />
+          <End Role="Partner_product" Type="Self.Partner_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partners">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partner_product">
+              <PropertyRef Name="partner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partner_product_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Partner_product" Type="Self.Partner_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partner_product">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Product_type">
+          <End Role="Product_type" Type="Self.Product_type" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OgilkoBDEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="Material_type" EntityType="Self.Material_type" />
+          <EntitySet Name="Partner_product" EntityType="Self.Partner_product" />
+          <EntitySet Name="Partners" EntityType="Self.Partners" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="Product_type" EntityType="Self.Product_type" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_Employee_Roles" Association="Self.FK_Employee_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partner_product_Partners" Association="Self.FK_Partner_product_Partners">
+            <End Role="Partners" EntitySet="Partners" />
+            <End Role="Partner_product" EntitySet="Partner_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partner_product_Product" Association="Self.FK_Partner_product_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Partner_product" EntitySet="Partner_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Product_type" Association="Self.FK_Product_Product_type">
+            <End Role="Product_type" EntitySet="Product_type" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище OgilkoBDModelContainer" CdmEntityContainer="OgilkoBDEntities">
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="OgilkoBDModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Material_type">
+            <EntityTypeMapping TypeName="OgilkoBDModel.Material_type">
+              <MappingFragment StoreEntitySet="Material_type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="procent_of_brak" ColumnName="procent_of_brak" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partner_product">
+            <EntityTypeMapping TypeName="OgilkoBDModel.Partner_product">
+              <MappingFragment StoreEntitySet="Partner_product">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="partner_id" ColumnName="partner_id" />
+                <ScalarProperty Name="quantity_of_products" ColumnName="quantity_of_products" />
+                <ScalarProperty Name="sale_date" ColumnName="sale_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partners">
+            <EntityTypeMapping TypeName="OgilkoBDModel.Partners">
+              <MappingFragment StoreEntitySet="Partners">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="director_name" ColumnName="director_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="legal_address" ColumnName="legal_address" />
+                <ScalarProperty Name="inn" ColumnName="inn" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="OgilkoBDModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="articul" ColumnName="articul" />
+                <ScalarProperty Name="minPrice" ColumnName="minPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_type">
+            <EntityTypeMapping TypeName="OgilkoBDModel.Product_type">
+              <MappingFragment StoreEntitySet="Product_type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="koef_of_type" ColumnName="koef_of_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="OgilkoBDModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="OgilkoBDModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

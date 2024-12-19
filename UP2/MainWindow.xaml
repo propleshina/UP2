@@ -1,0 +1,25 @@
+﻿<Window x:Class="UP2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UP2"
+        mc:Ignorable="d"
+        Icon="C:\Users\ogilk\Desktop\321_Ogilko_Ekaterina\UP2\UP2\Source\Мастер пол.ico"
+        Title="MainWindow" Height="480" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="58"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="24.04"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Source="Pages/Menu.xaml"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="800" Navigated="MainFrame_Navigated" Height="334" Background="White"></Frame>
+        <Button x:Name="BackButton" Grid.Row="0" Margin="20,14,0,9" Content="Назад" Click="BackButton_Click" HorizontalAlignment="Left" Width="79" BorderThickness="0"></Button>
+
+    </Grid>
+
+</Window>
+
+
+
